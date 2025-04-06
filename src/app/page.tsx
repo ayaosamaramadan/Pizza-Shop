@@ -1,7 +1,9 @@
+import Homepage from "@/pages/homepage";
+
 export default function Home() {
   return (
  <>
-<a href="/selected-link">Go to Selected Link</a>
- </>
+ <Homepage/>
+</>
   );
 }
