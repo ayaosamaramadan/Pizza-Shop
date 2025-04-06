@@ -1,17 +1,16 @@
 // import Header from "@/components/header";
 import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
-
-const Account = () => {
+import Ordermenu from "../ordermenu";
+import Multimenus from "../multimenus";
+const Menu = () => {
   return (
     <div className="flex">
       <Navbar />
-      <div className="ml-20">
-        {" "}
-        <h1>Account</h1>
-      </div>
+      <Multimenus/>
+      <Ordermenu/>
     </div>
   );
 };
 
-export default Account;
+export default Menu;

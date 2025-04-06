@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 const Navbar = () => {
   return (
-    <header className="bg-[#201818] h-[100vh]">
+    <header className="fixed bg-[#201818] h-[100vh]">
       <div className="">
         <ul>
           <li>
@@ -43,7 +43,7 @@ const Navbar = () => {
               </Link>
 
               <Link
-                href={"/"}
+                href={"/menu"}
                
               >
                 <Image

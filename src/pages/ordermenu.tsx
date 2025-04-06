@@ -3,7 +3,7 @@ import { GoDash, GoPlus } from "react-icons/go";
 const Ordermenu = () => {
   return (
     <>
-      <div className="ml-10 bg-[#201818] min-h-screen w-full sm:w-[30vw] p-5">
+      <div className="fixed right-0 ml-10 bg-[#201818] min-h-screen w-full sm:w-[30vw] p-5">
         <div className="flex mx-12 items-center mt-1 bg-[#1877F2] p-3 rounded shadow-md">
           <Image
             src="https://res.cloudinary.com/dgjbaeyok/image/upload/v1743901505/foodapp/home/cnevejsf98i36wp7vfim.png"
@@ -57,41 +57,48 @@ const Ordermenu = () => {
           </div>
 
           <div className="max-h-[250px] h-[300px] overflow-y-scroll">
-          <div className="bg-[#b4bccf31] flex items-center mt-2 mx-2 p-2 rounded-lg shadow-md hover:shadow-lg hover:bg-[#37383ab6] transition duration-300">
-              <Image
-                src={
-                  "https://res.cloudinary.com/dgjbaeyok/image/upload/v1743904421/foodapp/home/jwrcxtxvjt4fl2fgluuy.png"
-                }
-                alt=""
-                width={170}
-                height={90}
-                className="w-auto opacity-100 h-auto rounded-lg shadow"
-              />
-              <div>
-                <div className="w-52">
-                  <h1 className="font-bold text-[1rem] mt-1 ml-4">
-                    Pizza with Mushrooms
-                  </h1>
-                  <p className="ml-4 text-gray-500">8 inch</p>
-                  <p className="text-[#01C550] ml-4 leading-x-4">$10</p>
-                <div className="flex justify-end">
-                  <button
-                    title="addBtn"
-                    className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
-                  >
-                    <GoDash />
-                  </button>
-                  <p className="mx-3 text-black font-bold">01</p>
-                  <button
-                    title="addBtn"
-                    className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
-                  >
-                <GoPlus />    
-                  </button>
-                </div>
-                </div>
+        {
+          Array(4).fill(null).map((_, index) => (
+          <div key={index}>
+            <div className="bg-[#b4bccf31] flex items-center mt-2 mx-2 p-2 rounded-lg shadow-md hover:shadow-lg hover:bg-[#37383ab6] transition duration-300">
+            <Image
+              src={
+          "https://res.cloudinary.com/dgjbaeyok/image/upload/v1743904421/foodapp/home/jwrcxtxvjt4fl2fgluuy.png"
+              }
+              alt=""
+              width={170}
+              height={90}
+              className="w-auto opacity-100 h-auto rounded-lg shadow"
+            />
+            <div>
+              <div className="w-52">
+          <h1 className="font-bold text-[1rem] mt-1 ml-4">
+            Pizza with Mushrooms
+          </h1>
+          <p className="ml-4 text-gray-500">8 inch</p>
+          <p className="text-[#01C550] ml-4 leading-x-4">$10</p>
+              <div className="flex justify-end">
+          <button
+            type="button"
+            title="addBtn"
+            className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
+          >
+            <GoDash />
+          </button>
+          <p className="mx-3 text-black font-bold">01</p>
+          <button
+            title="addBtn"
+            className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
+          >
+              <GoPlus />    
+          </button>
+              </div>
               </div>
             </div>
+          </div>
+          </div>
+          ))
+        }
           
           </div>
           <div className="flex justify-between items-center mt-5 mx-12">
