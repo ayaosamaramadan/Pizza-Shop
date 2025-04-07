@@ -17,7 +17,6 @@ export const pizzas: PizzaType[] = [
     price: 12,
     description: "8 inch Pepperoni pizza with extra cheese",
   },
-
   {
     id: 3,
     title: "Pepperoni",

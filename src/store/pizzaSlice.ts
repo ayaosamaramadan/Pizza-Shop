@@ -14,7 +14,7 @@ const initialState: PizzaState = {
   selectedPizza: null,
   selectedExtras: [],
   totalPrice: 0,
-  selectedSize: 0, // Default size value
+  selectedSize: 0, 
 };
 
 const pizzaSlice = createSlice({
