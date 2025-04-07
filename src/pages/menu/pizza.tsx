@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { useState } from "react";
+import { PizzaType, SizeExtras } from "@/types/pizzatype";
 
-const pizzas = [
+const pizzas: PizzaType[] = [
   {
     id: 1,
     title: "Margarita",
@@ -20,12 +21,12 @@ const pizzas = [
   },
 ];
 
-const sizes = [
+const sizes: SizeExtras[] = [
   { label: "Small", value: 0 },
   { label: "Medium", value: 5 },
   { label: "Large", value: 10 },
 ];
-const extras = [
+const extras: SizeExtras[] = [
   { label: "Cheese", value: 2 },
   { label: "Pepperoni", value: 3 },
   { label: "Mushrooms", value: 1.5 },
@@ -33,12 +34,12 @@ const extras = [
 
 const Pizza = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPizza, setSelectedPizza] = useState(null);
+  const [selectedPizza, setSelectedPizza] = useState<PizzaType | null>(null);
   const [selectedSize, setSelectedSize] = useState(sizes[0].value);
-  const [selectedExtras, setSelectedExtras] = useState([]);
+  const [selectedExtras, setSelectedExtras] = useState<SizeExtras[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const openModal = (pizza) => {
+  const openModal = (pizza: PizzaType) => {
     setSelectedPizza(pizza);
     setSelectedSize(sizes[0].value);
     setSelectedExtras([]);
@@ -51,8 +52,8 @@ const Pizza = () => {
     setSelectedPizza(null);
   };
 
-  const handleSizeChange = (size) => {
-    const basePrice = selectedPizza.price;
+  const handleSizeChange = (size: number) => {
+    const basePrice = selectedPizza?.price || 0;
     const extrasPrice = selectedExtras.reduce(
       (acc, extra) => acc + extra.value,
       0
@@ -61,7 +62,7 @@ const Pizza = () => {
     setTotalPrice(basePrice + extrasPrice + (size - sizes[0].value));
   };
 
-  const handleExtraChange = (extra) => {
+  const handleExtraChange = (extra: SizeExtras) => {
     const isSelected = selectedExtras.find((e) => e.label === extra.label);
     let updatedExtras;
 
@@ -71,7 +72,7 @@ const Pizza = () => {
       updatedExtras = [...selectedExtras, extra];
     }
 
-    const basePrice = selectedPizza.price;
+    const basePrice = selectedPizza ? selectedPizza.price : 0;
     const extrasPrice = updatedExtras.reduce((acc, e) => acc + e.value, 0);
     setSelectedExtras(updatedExtras);
     setTotalPrice(basePrice + extrasPrice + (selectedSize - sizes[0].value));
@@ -83,7 +84,7 @@ const Pizza = () => {
         <h1 className="text-3xl font-bold text-white mb-6">Pizzas Category</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pizzas.map((pizza) => (
+          {pizzas.map((pizza:PizzaType) => (
             <div
               key={pizza.id}
               className="shadow-lg rounded-lg p-4 flex flex-col bg-white hover:shadow-xl transition-shadow"
@@ -103,8 +104,9 @@ const Pizza = () => {
                 <div className="flex justify-between items-center mt-2">
                   <p className="text-[#01C550] font-semibold">${pizza.price}</p>
                   <button
-                    onClick={() => openModal(pizza)}
                     type="button"
+                    onClick={() => openModal(pizza)}
+                    title="addBtn"
                     className="mt-2 px-4 py-2 bg-[#FF9921] text-white rounded hover:bg-[#ffb45f] transition"
                   >
                     ADD
@@ -178,8 +180,7 @@ const Pizza = () => {
                 ))}
               </div>
             </div>
-
-            <button className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition">
+           <button className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition">
               Add to cart - ${totalPrice.toFixed(2)}
             </button>
           </div>
