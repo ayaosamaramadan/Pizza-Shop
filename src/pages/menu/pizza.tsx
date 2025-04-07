@@ -1,44 +1,19 @@
 import Image from "next/image";
 import { useState } from "react";
 import { PizzaType, SizeExtras } from "@/types/pizzatype";
-
-const pizzas: PizzaType[] = [
-  {
-    id: 1,
-    title: "Margarita",
-    image:
-      "https://res.cloudinary.com/dgjbaeyok/image/upload/v1743904421/foodapp/home/jwrcxtxvjt4fl2fgluuy.png",
-    price: 10,
-    description: "8 inch classic Margarita pizza",
-  },
-  {
-    id: 2,
-    title: "Pepperoni",
-    image:
-      "https://res.cloudinary.com/dgjbaeyok/image/upload/v1743904421/foodapp/home/jwrcxtxvjt4fl2fgluuy.png",
-    price: 12,
-    description: "8 inch Pepperoni pizza with extra cheese",
-  },
-];
-
-const sizes: SizeExtras[] = [
-  { label: "Small", value: 0 },
-  { label: "Medium", value: 5 },
-  { label: "Large", value: 10 },
-];
-const extras: SizeExtras[] = [
-  { label: "Cheese", value: 2 },
-  { label: "Pepperoni", value: 3 },
-  { label: "Mushrooms", value: 1.5 },
-];
+import Modiforder from "../modiforder";
+import { pizzas, sizes } from "@/app/data/pizza";
 
 const Pizza = () => {
+  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPizza, setSelectedPizza] = useState<PizzaType | null>(null);
-  const [selectedSize, setSelectedSize] = useState(sizes[0].value);
   const [selectedExtras, setSelectedExtras] = useState<SizeExtras[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const [selectedSize, setSelectedSize] = useState(sizes[0].value);
+      
+ 
   const openModal = (pizza: PizzaType) => {
     setSelectedPizza(pizza);
     setSelectedSize(sizes[0].value);
@@ -46,146 +21,65 @@ const Pizza = () => {
     setTotalPrice(pizza.price);
     setIsModalOpen(true);
   };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedPizza(null);
-  };
-
-  const handleSizeChange = (size: number) => {
-    const basePrice = selectedPizza?.price || 0;
-    const extrasPrice = selectedExtras.reduce(
-      (acc, extra) => acc + extra.value,
-      0
-    );
-    setSelectedSize(size);
-    setTotalPrice(basePrice + extrasPrice + (size - sizes[0].value));
-  };
-
-  const handleExtraChange = (extra: SizeExtras) => {
-    const isSelected = selectedExtras.find((e) => e.label === extra.label);
-    let updatedExtras;
-
-    if (isSelected) {
-      updatedExtras = selectedExtras.filter((e) => e.label !== extra.label);
-    } else {
-      updatedExtras = [...selectedExtras, extra];
-    }
-
-    const basePrice = selectedPizza ? selectedPizza.price : 0;
-    const extrasPrice = updatedExtras.reduce((acc, e) => acc + e.value, 0);
-    setSelectedExtras(updatedExtras);
-    setTotalPrice(basePrice + extrasPrice + (selectedSize - sizes[0].value));
-  };
-
   return (
     <>
-      <div className="flex flex-col p-6 ml-20">
-        <h1 className="text-3xl font-bold text-white mb-6">Pizzas Category</h1>
+      <div className="flex flex-col p-10 ml-32 rounded-lg shadow-lg ">
+      <h1 className="bg-gradient-to-b from-[#ff7b00] to-[#FEB47B] text-transparent bg-clip-text text-4xl font-extrabold mb-8 text-center drop-shadow-lg">
+        Discover Your Favorite Pizza
+      </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pizzas.map((pizza:PizzaType) => (
-            <div
-              key={pizza.id}
-              className="shadow-lg rounded-lg p-4 flex flex-col bg-white hover:shadow-xl transition-shadow"
-            >
-              <Image
-                src={pizza.image}
-                alt={pizza.title}
-                width={250}
-                height={250}
-                className="w-full h-full object-cover rounded-md"
-              />
-              <div className="mt-4">
-                <h1 className="text-lg font-semibold text-gray-800">
-                  {pizza.title}
-                </h1>
-                <p className="text-gray-600">{pizza.description}</p>
-                <div className="flex justify-between items-center mt-2">
-                  <p className="text-[#01C550] font-semibold">${pizza.price}</p>
-                  <button
-                    type="button"
-                    onClick={() => openModal(pizza)}
-                    title="addBtn"
-                    className="mt-2 px-4 py-2 bg-[#FF9921] text-white rounded hover:bg-[#ffb45f] transition"
-                  >
-                    ADD
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {isModalOpen && selectedPizza && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 relative">
-            <button
-              onClick={closeModal}
-              className="absolute top-2 right-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-            >
-              X
-            </button>
-            <Image
-              src={selectedPizza.image}
-              alt={selectedPizza.title}
-              width={250}
-              height={250}
-              className="w-auto h-auto object-cover mx-auto rounded-md"
-            />
-            <h2 className="text-xl font-semibold mb-4 text-black text-center">
-              {selectedPizza.title}
-            </h2>
-            <p className="text-center text-black">
-              {selectedPizza.description}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {pizzas.map((pizza: PizzaType) => (
+        <div
+          key={pizza.id}
+          className="shadow-lg rounded-lg p-4 flex flex-col bg-white hover:shadow-2xl transition-transform transform hover:scale-105 hover:bg-[#FFF5E6] border border-[#FF5722]"
+        >
+          <div className="relative w-full">
+          <Image
+            src={pizza.image}
+            alt={pizza.title}
+            width={250}
+            height={250}
+            className="object-cover rounded-md w-auto h-auto mx-auto hover:opacity-90 transition-opacity"
+          />
+          </div>
+          <div className="mt-4">
+          <h2 className="text-lg font-bold text-gray-800 text-center hover:text-[#FF5722] transition-colors drop-shadow-md">
+            {pizza.title}
+          </h2>
+          <p className="text-gray-600 text-center mt-2 hover:text-gray-800 transition-colors">
+            {pizza.description}
+          </p>
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-[#FF5722] font-bold text-lg drop-shadow-sm">
+            ${pizza.price}
             </p>
-
-            <div>
-              <p className="text-black font-semibold mb-2">Pick Your Size</p>
-              <div className="flex justify-center gap-4 mb-4">
-                {sizes.map((size) => (
-                  <label key={size.value} className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="size"
-                      value={size.value}
-                      checked={selectedSize === size.value}
-                      onChange={() => handleSizeChange(size.value)}
-                    />
-                    <span className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 transition cursor-pointer">
-                      {size.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-
-              <p className="text-black font-semibold mb-2">Any Extras?</p>
-              <div className="flex justify-center gap-4">
-                {extras.map((extra) => (
-                  <label key={extra.label} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      name="extra"
-                      value={extra.value}
-                      checked={selectedExtras.some(
-                        (e) => e.label === extra.label
-                      )}
-                      onChange={() => handleExtraChange(extra)}
-                    />
-                    <span className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 transition cursor-pointer">
-                      {extra.label} (+${extra.value})
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-           <button className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition">
-              Add to cart - ${totalPrice.toFixed(2)}
+            <button
+            type="button"
+            onClick={() => openModal(pizza)}
+            className="cursor-pointer px-4 py-2 bg-[#FF5722] text-white font-semibold rounded-full hover:bg-[#FF7043] transition shadow-md hover:shadow-lg"
+            >
+            Order Now
             </button>
           </div>
+          </div>
         </div>
-      )}
+        ))}
+      </div>
+      </div>
+
+     <Modiforder 
+     setTotalPrice={setTotalPrice}
+     setIsModalOpen={setIsModalOpen}
+      selectedPizza={selectedPizza} 
+      isModalOpen={isModalOpen}
+      selectedExtras={selectedExtras}
+      totalPrice={totalPrice}
+      selectedSize={selectedSize}
+      setSelectedPizza={setSelectedPizza}
+      setSelectedSize={setSelectedSize}
+      setSelectedExtras={setSelectedExtras}
+      />
     </>
   );
 };
