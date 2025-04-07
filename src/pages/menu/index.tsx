@@ -2,12 +2,13 @@
 import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
 import Ordermenu from "../ordermenu";
-import Multimenus from "../multimenus";
+import Pizza from "./pizza";
+
 const Menu = () => {
   return (
     <div className="flex">
       <Navbar />
-      <Multimenus/>
+      <Pizza/>
       <Ordermenu/>
     </div>
   );
