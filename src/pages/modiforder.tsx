@@ -1,6 +1,6 @@
 import { PizzaType, SizeExtras } from "@/types/pizzatype";
 import Image from "next/image";
-import { sizes } from "@/app/data/pizza";
+import { sizes, extras } from "@/app/data/pizza";
 
 type proptypes = {
   isModalOpen: boolean;
@@ -27,11 +27,7 @@ const Modiforder = ({
   isModalOpen,
   selectedPizza,
 }: proptypes) => {
-  const extras: SizeExtras[] = [
-    { label: "Cheese", value: 2 },
-    { label: "Pepperoni", value: 3 },
-    { label: "Mushrooms", value: 1.5 },
-  ];
+
 
   const closeModal = () => {
     setIsModalOpen(false);
