@@ -1,13 +1,11 @@
 import Pizzacard from "./pizzacard";
 import Modiforder from "../modiforder";
-import { db } from "@/lib/prisma";
-
+import { pizzas } from "@/app/data/prismadata";
 
  const Pizza  = async() => {
 
-  const pizzas = await db.product.findMany();
 
-
+console.log(pizzas, "pizzas from prisma")
   return (
     <>
       <div className="flex flex-col p-10 ml-32 rounded-lg shadow-lg ">

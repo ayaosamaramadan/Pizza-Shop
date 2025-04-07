@@ -9,23 +9,21 @@ import {
   setTotalPrice,
 } from "@/store/pizzaSlice";
 
-import {  sizes } from "@/app/data/pizza";
+import { sizes } from "@/app/data/pizza";
 import { PizzaType } from "@/types/pizzatype";
 const PizzaCard = ({ pizza }: { pizza: PizzaType }) => {
-      
-     const dispatch = useDispatch();
-    
-    
-    
-    
-      const openModal = (pizza: PizzaType) => {
-        dispatch(setSelectedPizza(pizza));
-        dispatch(setSelectedSize(sizes[0].value));
-        dispatch(setSelectedExtras([]));
-        dispatch(setTotalPrice(pizza.price));
-        dispatch(setIsModalOpen(true));
-      };
-    return ( <>  <div
+  const dispatch = useDispatch();
+
+  const openModal = (pizza: PizzaType) => {
+    dispatch(setSelectedPizza(pizza));
+    dispatch(setSelectedSize(sizes[0].value));
+    dispatch(setSelectedExtras([]));
+    dispatch(setTotalPrice(pizza.price));
+    dispatch(setIsModalOpen(true));
+  };
+  return (
+    <>
+          <div
         key={pizza.id}
         className="shadow-lg rounded-lg p-4 flex flex-col bg-white hover:shadow-2xl transition-transform transform hover:scale-105 hover:bg-[#FFF5E6] border border-[#FF5722]"
       >
@@ -59,7 +57,8 @@ const PizzaCard = ({ pizza }: { pizza: PizzaType }) => {
           </div>
         </div>
       </div>
-      </> );
-}
- 
+    </>
+  );
+};
+
 export default PizzaCard;

@@ -8,5 +8,16 @@ export type PizzaType = {
   title: string;
   image: string;
   price: number;
+  description: string;  
+};
+
+
+export type prismaPizzaType = {
+  id: number;
+  title: string;
+  image: string;
+  price: number;
   description: string;
+  
+  
 };
