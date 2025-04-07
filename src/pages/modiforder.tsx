@@ -1,37 +1,29 @@
-import { PizzaType, SizeExtras } from "@/types/pizzatype";
 import Image from "next/image";
 import { sizes, extras } from "@/app/data/pizza";
-
-type proptypes = {
-  isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
-  selectedPizza: PizzaType | null;
-  selectedExtras: SizeExtras[];
-  totalPrice: number;
-  selectedSize: number;
-  setSelectedPizza: (pizza: PizzaType | null) => void;
-  setSelectedSize: (size: number) => void;
-  setTotalPrice: (price: number) => void;
-  setSelectedExtras: (extras: SizeExtras[]) => void;
-};
-
-const Modiforder = ({
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setIsModalOpen,
+  setSelectedPizza,
   setSelectedExtras,
   setTotalPrice,
   setSelectedSize,
-  setSelectedPizza,
-  selectedSize,
-  totalPrice,
-  selectedExtras,
-  setIsModalOpen,
-  isModalOpen,
-  selectedPizza,
-}: proptypes) => {
+} from "@/store/pizzaSlice";
+import { RootState } from "@/store";
+import { SizeExtras } from "@/types/pizzatype";
 
+const Modiforder = () => {
+  const dispatch = useDispatch();
+  const {
+    isModalOpen,
+    selectedPizza,
+    selectedExtras,
+    totalPrice,
+    selectedSize,
+  } = useSelector((state: RootState) => state.pizza);
 
   const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedPizza(null);
+    dispatch(setIsModalOpen(false));
+    dispatch(setSelectedPizza(null));
   };
 
   const handleSizeChange = (size: number) => {
@@ -40,8 +32,8 @@ const Modiforder = ({
       (acc, extra) => acc + extra.value,
       0
     );
-    setSelectedSize(size);
-    setTotalPrice(basePrice + extrasPrice + (size - sizes[0].value));
+    dispatch(setSelectedSize(size));
+    dispatch(setTotalPrice(basePrice + extrasPrice + (size - sizes[0].value)));
   };
 
   const handleExtraChange = (extra: SizeExtras) => {
@@ -56,8 +48,10 @@ const Modiforder = ({
 
     const basePrice = selectedPizza ? selectedPizza.price : 0;
     const extrasPrice = updatedExtras.reduce((acc, e) => acc + e.value, 0);
-    setSelectedExtras(updatedExtras);
-    setTotalPrice(basePrice + extrasPrice + (selectedSize - sizes[0].value));
+    dispatch(setSelectedExtras(updatedExtras));
+    dispatch(
+      setTotalPrice(basePrice + extrasPrice + (selectedSize - sizes[0].value))
+    );
   };
 
   return (
