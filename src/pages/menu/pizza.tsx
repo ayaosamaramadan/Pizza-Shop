@@ -1,31 +1,42 @@
 import { useEffect, useState } from "react";
-import Pizzacard from "./pizzacard";
-import Modiforder from "../modiforder";
-import { PizzaType } from "@/types/pizzatype";
+import Image from "next/image";
+const CategoriesWithProducts = () => {
+  interface Product {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    image: string;
+  }
 
-const Pizza = () => {
-  const [pizzas, setPizzas] = useState<PizzaType[]>([]);
+  interface Category {
+    id: number;
+    name: string;
+    products: Product[];
+  }
+
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPizzas = async () => {
+    const fetchCategoriesWithProducts = async () => {
       try {
-        const response = await fetch("/api/pizzas"); // Call the API route
+        const response = await fetch("/api/categories");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setPizzas(data); // Set the fetched pizzas
+        setCategories(data);
       } catch (err) {
-        console.error("Error fetching pizzas:", err);
-        setError("Failed to load pizzas.");
+        console.error("Error fetching categories with products:", err);
+        setError("Failed to load categories with products.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPizzas();
+    fetchCategoriesWithProducts();
   }, []);
 
   if (loading) {
@@ -36,27 +47,32 @@ const Pizza = () => {
     return <div>{error}</div>;
   }
 
-  if (!pizzas || pizzas.length === 0) {
-    return <div>No pizzas available.</div>;
-  }
-
   return (
-    <>
-      <div className="flex flex-col p-10 ml-32 rounded-lg shadow-lg ">
-        <h1 className="bg-gradient-to-b from-[#ff7b00] to-[#FEB47B] text-transparent bg-clip-text text-4xl font-extrabold mb-8 text-center drop-shadow-lg">
-          Discover Your Favorite Pizza
-        </h1>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {pizzas.map((pizza) => (
-            <Pizzacard key={pizza.id} pizza={pizza} />
-          ))}
+    <div className="flex flex-col p-10 ml-32 rounded-lg shadow-lg ">
+      <h1>Categories and Products</h1>
+      {categories.map((category) => (
+        <div key={category.id}>
+          <h2>{category.name}</h2>
+          <ul>
+            {category.products.map((product) => (
+              <li key={product.id}>
+                <Image
+                  src={product.image} 
+                    alt={product.title}
+                  width={100}
+                  height={100}
+                  className="w-auto h-auto object-cover mx-auto rounded-md shadow-md"
+                />
+                <h3>{product.title}</h3>
+                <p>{product.description}</p>
+                <p>Price: ${product.price}</p>
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
-
-      <Modiforder />
-    </>
+      ))}
+    </div>
   );
 };
 
-export default Pizza;
+export default CategoriesWithProducts;

@@ -1,5 +1,17 @@
 import {  SizeExtras } from "@/types/pizzatype";
 
+export const sizes: SizeExtras[] = [
+  { label: "Small", value: 0 },
+  { label: "Medium", value: 5 },
+  { label: "Large", value: 10 },
+];
+
+export const extras: SizeExtras[] = [
+  { label: "Cheese", value: 2 },
+  { label: "Pepperoni", value: 3 },
+  { label: "Mushrooms", value: 1.5 },
+];
+
 // export const pizzas: PizzaType[] = [
 //   {
 //     id: 1,
@@ -43,14 +55,3 @@ import {  SizeExtras } from "@/types/pizzatype";
 //   },
 // ];
 
-export const sizes: SizeExtras[] = [
-  { label: "Small", value: 0 },
-  { label: "Medium", value: 5 },
-  { label: "Large", value: 10 },
-];
-
-export const extras: SizeExtras[] = [
-  { label: "Cheese", value: 2 },
-  { label: "Pepperoni", value: 3 },
-  { label: "Mushrooms", value: 1.5 },
-];
