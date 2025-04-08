@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import Image from "next/image";
+// import Image from "next/image";
+import Pizzacard from "./pizzacard";
+import Modiforder from "../modiforder";
 const CategoriesWithProducts = () => {
   interface Product {
     id: number;
@@ -48,30 +50,24 @@ const CategoriesWithProducts = () => {
   }
 
   return (
-    <div className="flex flex-col p-10 ml-32 rounded-lg shadow-lg ">
-      <h1>Categories and Products</h1>
-      {categories.map((category) => (
-        <div key={category.id}>
-          <h2>{category.name}</h2>
-          <ul>
-            {category.products.map((product) => (
-              <li key={product.id}>
-                <Image
-                  src={product.image} 
-                    alt={product.title}
-                  width={100}
-                  height={100}
-                  className="w-auto h-auto object-cover mx-auto rounded-md shadow-md"
-                />
-                <h3>{product.title}</h3>
-                <p>{product.description}</p>
-                <p>Price: ${product.price}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="flex flex-col p-6 md:p-10 mx-4 md:ml-32 rounded-lg shadow-lg">
+        {categories.map((category) => (
+          <div key={category.id} className="mb-10">
+        <h1 className="bg-gradient-to-b from-[#ff7b00] to-[#FEB47B] text-transparent bg-clip-text text-2xl md:text-4xl font-extrabold mb-6 text-center drop-shadow-lg">
+          {category.name}
+        </h1>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {category.products.map((pizza) => (
+            <Pizzacard key={pizza.id} pizza={pizza} />
+          ))}
+        </ul>
+          </div>
+        ))}
+      </div>
+
+      <Modiforder />
+    </>
   );
 };
 
