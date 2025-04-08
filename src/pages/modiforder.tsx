@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { sizes, extras } from "@/app/data/pizza";
+import { 
+  sizes,
+   extras } from "@/app/data/pizza";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setIsModalOpen,
@@ -92,7 +94,7 @@ const Modiforder = () => {
                       onChange={() => handleSizeChange(size.value)}
                     />
                     <span className="px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300 transition cursor-pointer shadow-sm">
-                      {size.label}
+                      {size.label} $ {selectedPizza.price + size.value}
                     </span>
                   </label>
                 ))}
