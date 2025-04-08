@@ -9,6 +9,8 @@ import {
   setSelectedExtras,
   setTotalPrice,
   setSelectedSize,
+   addtocart
+ 
 } from "@/store/pizzaSlice";
 import { RootState } from "@/store";
 import { SizeExtras } from "@/types/pizzatype";
@@ -16,11 +18,13 @@ import { SizeExtras } from "@/types/pizzatype";
 const Modiforder = () => {
   const dispatch = useDispatch();
   const {
+   
     isModalOpen,
     selectedPizza,
     selectedExtras,
     totalPrice,
     selectedSize,
+   
   } = useSelector((state: RootState) => state.pizza);
 
   const closeModal = () => {
@@ -120,7 +124,19 @@ const Modiforder = () => {
                 ))}
               </div>
             </div>
-            <button className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition shadow-md hover:shadow-lg">
+            <button className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition shadow-md hover:shadow-lg"
+              onClick={() => {
+                closeModal();
+                dispatch(setSelectedPizza(null));
+                dispatch(addtocart({ 
+                  pizza: selectedPizza, 
+                  size: selectedSize, 
+                  extras: selectedExtras, 
+                  price: totalPrice, 
+                 image: selectedPizza.image
+                }));}}
+            
+            >
               Add to cart - ${totalPrice.toFixed(2)}
             </button>
           </div>
