@@ -11,3 +11,5 @@ CREATE TABLE "Product" (
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
+
+SELECT * FROM "Product" WHERE "image" IS NULL OR "image" = '';

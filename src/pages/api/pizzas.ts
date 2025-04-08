@@ -5,13 +5,13 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    // Fetch all pizzas from the database
-    const pizzas = await prisma.product.findMany(); // Replace 'product' with your actual table name
-    res.status(200).json(pizzas); // Return the pizzas as JSON
+    const pizzas = await prisma.product.findMany();
+    console.log("Fetched pizzas:", pizzas); 
+    res.status(200).json(pizzas);
   } catch (error) {
     console.error("Error fetching pizzas:", error);
-    res.status(500).json({ error: "Failed to fetch pizzas" }); // Handle errors
+    res.status(500).json({ error: "Failed to fetch pizzas" });
   } finally {
-    await prisma.$disconnect(); // Disconnect Prisma client
+    await prisma.$disconnect();
   }
 }

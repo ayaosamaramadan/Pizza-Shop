@@ -15,13 +15,13 @@ datasource db {
 
 model Product {
   id          Int      @id @default(autoincrement())
-  title        String
-  image      String
+  title       String
+  image       String? // Make the field optional
   description String
   price       Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  order     Int?
+  order       Int?
 }
 
 // model Product {

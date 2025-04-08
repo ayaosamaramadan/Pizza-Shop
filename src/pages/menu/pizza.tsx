@@ -36,6 +36,10 @@ const Pizza = () => {
     return <div>{error}</div>;
   }
 
+  if (!pizzas || pizzas.length === 0) {
+    return <div>No pizzas available.</div>;
+  }
+
   return (
     <>
       <div className="flex flex-col p-10 ml-32 rounded-lg shadow-lg ">
