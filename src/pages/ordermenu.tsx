@@ -3,9 +3,44 @@
 import { RootState } from "@/store";
 import Image from "next/image";
 import { GoDash, GoPlus } from "react-icons/go";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {  isDecModalOpen, setIsModalOpen,  setSelectedPizza } from "@/store/pizzaSlice";
+// import { PizzaType } from "@/types/pizzatype";
+
+import {  PizzaType } from "@/types/pizzatype";
+// import Decrpizza from "./decrpizza";
+// import { PizzaType } from "@/types/pizzatype";
 const Ordermenu = () => {
-  const {itemCart} =useSelector((state: RootState) => state.pizza);
+  const dispatch = useDispatch();
+
+
+
+  const { itemCart } = useSelector((state: RootState) => state.pizza);
+
+  const openModal = (item: PizzaType) => {
+    dispatch(setSelectedPizza(item));
+    // dispatch(setSelectedSize(sizes[0].value));
+    // dispatch(setSelectedExtras([]));
+    // dispatch(setTotalPrice(item.price));
+    dispatch(setIsModalOpen(true));
+  };
+
+  const opendecModal = (item: PizzaType) => {
+    dispatch(setSelectedPizza(item));
+    // dispatch(setSelectedSize(sizes[0].value));
+    // dispatch(setSelectedExtras([]));
+    // dispatch(setTotalPrice(item.price));
+    dispatch(isDecModalOpen(true));
+    // dispatch(dec(
+    //                   pizza: selectedPizza, 
+    //                   size: selectedSize, 
+    //                   extras: selectedExtras, 
+    //                   price: totalPrice, 
+    //                  image: selectedPizza.image
+    //                 ));
+  };
+
+
   return (
     <>
       <div className="fixed right-0 ml-10 bg-[#201818] min-h-screen w-full sm:w-[30vw] p-5">
@@ -62,49 +97,54 @@ const Ordermenu = () => {
           </div>
 
           <div className="max-h-[250px] h-[300px] overflow-y-scroll">
-        {
-          itemCart.map((item) => (
-          <div key={item.id}>
-            <div className="bg-[#b4bccf31] flex items-center mt-2 mx-2 p-2 rounded-lg shadow-md hover:shadow-lg hover:bg-[#37383ab6] transition duration-300">
-            <Image
-              src={
-                item.image
-                }
-              alt=""
-              width={170}
-              height={90}
-              className="w-auto opacity-100 h-auto rounded-lg shadow"
-            />
-            <div>
-              <div className="w-52">
-          <h1 className="font-bold text-[1rem] mt-1 ml-4">
-            {item.name}
-          </h1>
-          <p className="ml-4 text-gray-500">8 inch</p>
-          <p className="text-[#01C550] ml-4 leading-x-4">${item.price}</p>
-              <div className="flex justify-end">
-          <button
-            type="button"
-            title="addBtn"
-            className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
-          >
-            <GoDash />
-          </button>
-          <p className="mx-3 text-black font-bold">{item.quantity}</p>
-          <button
-            title="addBtn"
-            className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
-          >
-              <GoPlus />    
-          </button>
+            {itemCart.map((item) => (
+              <div key={item.id}>
+                <div className="bg-[#b4bccf31] flex items-center mt-2 mx-2 p-2 rounded-lg shadow-md hover:shadow-lg hover:bg-[#37383ab6] transition duration-300">
+                  <Image
+                    src={item.image}
+                    alt=""
+                    width={170}
+                    height={90}
+                    className="w-auto opacity-100 h-auto rounded-lg shadow"
+                  />
+                  <div>
+                    <div className="w-52">
+                      <h1 className="font-bold text-[1rem] mt-1 ml-4">
+                        {item.title}
+                      </h1>
+                      <p className="ml-4 text-gray-500">8 inch</p>
+                      <p className="text-[#01C550] ml-4 leading-x-4">
+                        ${item.price}
+                      </p>
+                      <div className="flex justify-end">
+                        <button
+                          type="button"
+                          title="addBtn"
+                          onClick={() =>
+                            opendecModal(item)
+                            
+                          }
+                          className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
+                        >
+                          <GoDash />
+                        </button>
+                        <p className="mx-3 text-black font-bold">
+                          {item.quantity}
+                        </p>
+                        <button
+                          title="addBtn"
+                          onClick={() => openModal(item)}
+                          
+                          className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
+                        >
+                          <GoPlus />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
-          </div>
-          </div>
-          ))
-        }
-          
+            ))}
           </div>
           <div className="flex justify-between items-center mt-5 mx-12">
             <h1 className="text-[1rem] font-semibold">Total Price</h1>
@@ -122,6 +162,7 @@ const Ordermenu = () => {
           </div>
         </div>
       </div>
+
     </>
   );
 };

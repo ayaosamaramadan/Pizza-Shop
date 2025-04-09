@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 // import Image from "next/image";
 import Pizzacard from "./pizzacard";
 import Modiforder from "../modiforder";
+import Decrpizza from "../decrpizza";
 const CategoriesWithProducts = () => {
   interface Product {
     id: number;
@@ -67,6 +68,7 @@ const CategoriesWithProducts = () => {
       </div>
 
       <Modiforder />
+      <Decrpizza/>
     </>
   );
 };

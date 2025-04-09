@@ -3,21 +3,27 @@ import { PizzaType, SizeExtras } from "@/types/pizzatype";
 
 type itemCartTypes = {
   id: number;
-  name: string;
+  title: string;
   price: number;
   quantity: number;
   size: number;
   extras: SizeExtras[];
   image: string;
+
+  description?: string; // Optional if not always present
 };
+
+
 interface PizzaState {
   isModalOpen: boolean;
   selectedPizza: PizzaType | null;
   selectedExtras: SizeExtras[];
-
   totalPrice: number;
   selectedSize: number;
   itemCart: itemCartTypes[];
+  isdecOpen: boolean;
+  daupleitemCart: itemCartTypes[];
+  
 }
 
 const initialState: PizzaState = {
@@ -25,9 +31,10 @@ const initialState: PizzaState = {
   selectedPizza: null,
   selectedExtras: [],
   totalPrice: 0,
-
   selectedSize: 0,
   itemCart: [],
+  isdecOpen: false,
+  daupleitemCart: [],
 };
 
 const pizzaSlice = createSlice({
@@ -55,11 +62,34 @@ const pizzaSlice = createSlice({
        
         existingPizza.quantity += 1;
         console.log("Pizza already in cart, increasing quantity.");
+        existingPizza.price += price;
+        state.daupleitemCart.push({
+          id: pizza.id,
+          title: pizza.title,
+          size: size,
+          extras: extras,
+          image: pizza.image,
+          price: price,
+          quantity: 1,
+        });
+
+
+
       } else {
       
         state.itemCart.push({
           id: pizza.id,
-          name: pizza.title,
+          title: pizza.title,
+          size: size,
+          extras: extras,
+          image: pizza.image,
+          price: price,
+          quantity: 1,
+        });
+
+        state.daupleitemCart.push({
+          id: pizza.id,
+          title: pizza.title,
           size: size,
           extras: extras,
           image: pizza.image,
@@ -70,6 +100,18 @@ const pizzaSlice = createSlice({
         console.log("Pizza added to cart.");
       }
     },
+  //  dec(
+  //     state,
+  //     action: PayloadAction<{
+  //       pizza: PizzaType;
+  //       size: number;
+  //       extras: SizeExtras[];
+  //       price: number;
+  //       image: string;
+  //     }>
+  //   ) {
+     
+  //   },
     setIsModalOpen(state, action: PayloadAction<boolean>) {
       state.isModalOpen = action.payload;
     },
@@ -85,6 +127,9 @@ const pizzaSlice = createSlice({
     setSelectedSize(state, action: PayloadAction<number>) {
       state.selectedSize = action.payload;
     },
+    isDecModalOpen(state, action: PayloadAction<boolean>) {
+      state.isdecOpen = action.payload;
+    },
   },
 });
 
@@ -95,6 +140,9 @@ export const {
   setTotalPrice,
   setSelectedSize,
   addtocart,
+  isDecModalOpen,
+  
+  // dec
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;

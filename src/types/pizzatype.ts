@@ -6,10 +6,14 @@ export type SizeExtras = {
 export type PizzaType = {
   id: number;
   title: string;
-  image: string;
   price: number;
-  description: string;  
+  quantity?: number;
+  size?: number;
+  extras?: SizeExtras[];
+  image: string;
+  description?: string; 
 };
+
 
 
 export type prismaPizzaType = {
@@ -20,4 +24,14 @@ export type prismaPizzaType = {
   description: string;
   
   
+};
+
+export type itemtype = {
+  id: number;
+  name: string;
+  size: number;
+  extras: SizeExtras[];
+  image: string;
+  price: number;
+  quantity: number;
 };
