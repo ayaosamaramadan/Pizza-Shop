@@ -3,24 +3,20 @@ import { useEffect, useState } from "react";
 import Pizzacard from "./pizzacard";
 import Modiforder from "../modiforder";
 import Decrpizza from "../decrpizza";
+import { useDispatch } from "react-redux";
+import { setCategories } from "@/store/pizzaSlice";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 const CategoriesWithProducts = () => {
-  interface Product {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    image: string;
-  }
+ 
 
-  interface Category {
-    id: number;
-    name: string;
-    products: Product[];
-  }
+  const dispatch = useDispatch();
 
-  const [categories, setCategories] = useState<Category[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const {categories} = useSelector((state: RootState) => state.pizza);
 
   useEffect(() => {
     const fetchCategoriesWithProducts = async () => {
@@ -30,7 +26,7 @@ const CategoriesWithProducts = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setCategories(data);
+        dispatch(setCategories(data)); // Dispatch the action to set categories in the Redux store
       } catch (err) {
         console.error("Error fetching categories with products:", err);
         setError("Failed to load categories with products.");

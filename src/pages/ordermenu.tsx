@@ -13,10 +13,19 @@ import { PizzaType } from "@/types/pizzatype";
 const Ordermenu = () => {
   const dispatch = useDispatch();
 
-  const { itemCart } = useSelector((state: RootState) => state.pizza);
+  const { itemCart , categories } = useSelector((state: RootState) => state.pizza);
 
-  const openModal = (item: PizzaType) => {
-    dispatch(setSelectedPizza(item));
+
+
+
+  const openModal = (id: PizzaType) => {
+    console.log(id);
+    
+    const selected =  categories.find((category) =>
+      category.products.some((product) => product.id === id.id)
+    );
+    
+    dispatch(setSelectedPizza(selected?.products.find((product) => product.id === id.id) || null));
     dispatch(setIsModalOpen(true));
   };
 
