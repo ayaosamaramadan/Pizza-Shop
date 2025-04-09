@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from "react";
 import Pizzacard from "./pizzacard";
-import Modiforder from "../modiforder";
+import Modiforder from "../../components/buttonactions/modiforder";
 import { PizzaType } from "@/types/pizzatype";
 
 const Pizza = () => {
@@ -19,13 +18,13 @@ const Pizza = () => {
           return;
         }
 
-        const response = await fetch("/api/pizzas"); 
+        const response = await fetch("/api/pizzas");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         setPizzas(data);
-        localStorage.setItem("pizzas", JSON.stringify(data)); 
+        localStorage.setItem("pizzas", JSON.stringify(data));
       } catch (err) {
         console.error("Error fetching pizzas:", err);
         setError("Failed to load pizzas.");
@@ -59,7 +58,6 @@ const Pizza = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {pizzas.map((pizza) => (
             <Pizzacard key={pizza.id} pizza={pizza} />
-       
           ))}
         </div>
       </div>

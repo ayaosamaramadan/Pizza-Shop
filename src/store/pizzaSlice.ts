@@ -11,19 +11,20 @@ type itemCartTypes = {
   image: string;
   description?: string;
 };
- interface Product {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    image: string;
-  }
 
-  interface Category {
-    id: number;
-    name: string;
-    products: Product[];
-  }
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+interface Category {
+  id: number;
+  name: string;
+  products: Product[];
+}
 
 interface PizzaState {
   isModalOpen: boolean;
@@ -35,8 +36,9 @@ interface PizzaState {
   isdecOpen: boolean;
   daupleitemCart: itemCartTypes[];
   categories: Category[];
-  
 }
+
+
 
 const initialState: PizzaState = {
   isModalOpen: false,
@@ -44,17 +46,23 @@ const initialState: PizzaState = {
   selectedExtras: [],
   totalPrice: 0,
   selectedSize: 0,
-  itemCart: [],
+  itemCart: [], // Initialize as empty; will be loaded on the client
   isdecOpen: false,
   daupleitemCart: [],
   categories: [],
-
 };
 
 const pizzaSlice = createSlice({
   name: "pizza",
   initialState,
   reducers: {
+    initializeCart(state) {
+      // Load cart from localStorage on the client
+      if (typeof window !== "undefined") {
+        const storedCart = localStorage.getItem("itemCart");
+        state.itemCart = storedCart ? JSON.parse(storedCart) : [];
+      }
+    },
     addtocart(
       state,
       action: PayloadAction<{
@@ -71,17 +79,7 @@ const pizzaSlice = createSlice({
 
       if (existingPizza) {
         existingPizza.quantity += 1;
-        console.log("Pizza already in cart, increasing quantity.");
         existingPizza.price += price;
-        state.daupleitemCart.push({
-          id: pizza.id,
-          title: pizza.title,
-          size: size,
-          extras: extras,
-          image: pizza.image,
-          price: price,
-          quantity: 1,
-        });
       } else {
         state.itemCart.push({
           id: pizza.id,
@@ -92,18 +90,11 @@ const pizzaSlice = createSlice({
           price: price,
           quantity: 1,
         });
+      }
 
-        state.daupleitemCart.push({
-          id: pizza.id,
-          title: pizza.title,
-          size: size,
-          extras: extras,
-          image: pizza.image,
-          price: price,
-          quantity: 1,
-        });
-
-        console.log("Pizza added to cart.");
+      // Save updated cart to localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("itemCart", JSON.stringify(state.itemCart));
       }
     },
     setIsModalOpen(state, action: PayloadAction<boolean>) {
@@ -124,6 +115,23 @@ const pizzaSlice = createSlice({
     isDecModalOpen(state, action: PayloadAction<boolean>) {
       state.isdecOpen = action.payload;
     },
+    
+    // remove(
+    //   state,
+    //   action: PayloadAction<{
+    //     id: number;
+    //   }>
+    // ) {
+    //   state.itemCart = state.itemCart.filter(
+    //     (item) => item.id !== action.payload.id
+    //   );
+
+    //   // Save updated cart to localStorage
+    //   if (typeof window !== "undefined") {
+    //     localStorage.setItem("itemCart", JSON.stringify(state.itemCart));
+    //   }
+    // },
+
     remove(
       state,
       action: PayloadAction<{
@@ -139,6 +147,10 @@ const pizzaSlice = createSlice({
         (item) => item.id === id
       );
 
+      if (typeof window !== "undefined") {
+            localStorage.setItem("itemCart", JSON.stringify(state.itemCart));
+          }
+
       state.daupleitemCart.splice(selectedItem ? itemIndex : index, 1);
       if (itemInCart) {
         itemInCart.quantity -= 1;
@@ -148,6 +160,9 @@ const pizzaSlice = createSlice({
         }
       }
     },
+
+
+
     setCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload;
     },
@@ -155,6 +170,7 @@ const pizzaSlice = createSlice({
 });
 
 export const {
+  initializeCart,
   setIsModalOpen,
   setSelectedPizza,
   setSelectedExtras,

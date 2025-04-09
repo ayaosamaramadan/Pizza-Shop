@@ -9,9 +9,17 @@ import {
   setSelectedPizza,
 } from "@/store/pizzaSlice";
 import { PizzaType } from "@/types/pizzatype";
+import { useEffect } from "react";
+
+import { initializeCart } from "@/store/pizzaSlice";
+
 
 const Ordermenu = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeCart());
+  }, [dispatch]);
 
   const { itemCart, categories } = useSelector(
     (state: RootState) => state.pizza
@@ -168,6 +176,7 @@ const Ordermenu = () => {
           </div>
         </div>
       </div>
+      
     </>
   );
 };

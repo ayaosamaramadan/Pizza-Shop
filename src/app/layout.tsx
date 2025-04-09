@@ -1,4 +1,6 @@
 import ClientProvider from "@/components/ClientProvider";
+import ReduxProvider from "@/components/ReduxProvider";
+// import AppInitializer from "@/components/AppInitializer";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -25,14 +27,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`flex ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClientProvider>
-          <Navbar />
-          <div className="container mx-auto">{children}</div>
-        </ClientProvider>
+        <ReduxProvider>
+          <ClientProvider>
+            <Navbar />
+            <div className="container mx-auto">{children}</div>
+          </ClientProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
