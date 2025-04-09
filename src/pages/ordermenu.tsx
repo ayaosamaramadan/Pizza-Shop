@@ -1,3 +1,5 @@
+"use client";
+
 import { RootState } from "@/store";
 import Image from "next/image";
 import { GoDash, GoPlus } from "react-icons/go";

@@ -1,3 +1,4 @@
+import ClientProvider from "@/components/ClientProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -28,8 +29,10 @@ export default function RootLayout({
       <body
         className={`flex ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        <div className="container mx-auto">{children}</div>
+        <ClientProvider>
+          <Navbar />
+          <div className="container mx-auto">{children}</div>
+        </ClientProvider>
       </body>
     </html>
   );
