@@ -13,19 +13,22 @@ import { PizzaType } from "@/types/pizzatype";
 const Ordermenu = () => {
   const dispatch = useDispatch();
 
-  const { itemCart , categories } = useSelector((state: RootState) => state.pizza);
-
-
-
+  const { itemCart, categories } = useSelector(
+    (state: RootState) => state.pizza
+  );
 
   const openModal = (id: PizzaType) => {
     console.log(id);
-    
-    const selected =  categories.find((category) =>
+
+    const selected = categories.find((category) =>
       category.products.some((product) => product.id === id.id)
     );
-    
-    dispatch(setSelectedPizza(selected?.products.find((product) => product.id === id.id) || null));
+
+    dispatch(
+      setSelectedPizza(
+        selected?.products.find((product) => product.id === id.id) || null
+      )
+    );
     dispatch(setIsModalOpen(true));
   };
 
@@ -90,7 +93,8 @@ const Ordermenu = () => {
           </div>
 
           <div className="max-h-[250px] h-[300px] overflow-y-scroll">
-            {itemCart.map((item) => (
+            {itemCart&&
+            itemCart.map((item) => (
               <div key={item.id}>
                 <div className="bg-[#b4bccf31] flex items-center mt-2 mx-2 p-2 rounded-lg shadow-md hover:shadow-lg hover:bg-[#37383ab6] transition duration-300">
                   <Image
@@ -134,11 +138,24 @@ const Ordermenu = () => {
                 </div>
               </div>
             ))}
+            {itemCart.length === 0 && (
+                <div className="flex mt-20 flex-col justify-center items-center">
+               
+                <h1 className="text-[1rem] font-semibold text-gray-500">
+                  Your cart is empty
+                </h1>
+                <p className="text-sm text-gray-400 mt-2">
+                  Add some delicious items to get started!
+                </p>
+                </div>
+            )}
+          
+                  
           </div>
           <div className="flex justify-between items-center mt-5 mx-12">
             <h1 className="text-[1rem] font-semibold">Total Price</h1>
             <button className="text-[1.5rem] font-semibold leading-2 text-[#01C550] flex items-center justify-center">
-              $52.00
+              ${itemCart.reduce((total, item) => total + item.price, 0)}
             </button>
           </div>
           <div className="flex justify-center mt-5">
