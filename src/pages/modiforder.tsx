@@ -1,7 +1,5 @@
 import Image from "next/image";
-import { 
-  sizes,
-   extras } from "@/app/data/pizza";
+import { sizes, extras } from "@/app/data/pizza";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setIsModalOpen,
@@ -9,8 +7,7 @@ import {
   setSelectedExtras,
   setTotalPrice,
   setSelectedSize,
-   addtocart
- 
+  addtocart,
 } from "@/store/pizzaSlice";
 import { RootState } from "@/store";
 import { SizeExtras } from "@/types/pizzatype";
@@ -18,13 +15,11 @@ import { SizeExtras } from "@/types/pizzatype";
 const Modiforder = () => {
   const dispatch = useDispatch();
   const {
-   
     isModalOpen,
     selectedPizza,
     selectedExtras,
     totalPrice,
     selectedSize,
-   
   } = useSelector((state: RootState) => state.pizza);
 
   const closeModal = () => {
@@ -63,7 +58,7 @@ const Modiforder = () => {
   return (
     <>
       {isModalOpen && selectedPizza && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-md ">
           <div className="bg-white p-6 rounded-lg shadow-2xl w-1/3 relative border-2 border-[#FF5722]">
             <button
               onClick={closeModal}
@@ -124,18 +119,21 @@ const Modiforder = () => {
                 ))}
               </div>
             </div>
-            <button className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition shadow-md hover:shadow-lg"
+            <button
+              className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition shadow-md hover:shadow-lg"
               onClick={() => {
                 closeModal();
                 dispatch(setSelectedPizza(null));
-                dispatch(addtocart({ 
-                  pizza: selectedPizza, 
-                  size: selectedSize, 
-                  extras: selectedExtras, 
-                  price: totalPrice, 
-                 image: selectedPizza.image
-                }));}}
-            
+                dispatch(
+                  addtocart({
+                    pizza: selectedPizza,
+                    size: selectedSize,
+                    extras: selectedExtras,
+                    price: totalPrice,
+                    image: selectedPizza.image,
+                  })
+                );
+              }}
             >
               Add to cart - ${totalPrice.toFixed(2)}
             </button>

@@ -1,45 +1,29 @@
 "use client";
-
 import { RootState } from "@/store";
 import Image from "next/image";
 import { GoDash, GoPlus } from "react-icons/go";
 import { useSelector, useDispatch } from "react-redux";
-import {  isDecModalOpen, setIsModalOpen,  setSelectedPizza } from "@/store/pizzaSlice";
-// import { PizzaType } from "@/types/pizzatype";
+import {
+  isDecModalOpen,
+  setIsModalOpen,
+  setSelectedPizza,
+} from "@/store/pizzaSlice";
+import { PizzaType } from "@/types/pizzatype";
 
-import {  PizzaType } from "@/types/pizzatype";
-// import Decrpizza from "./decrpizza";
-// import { PizzaType } from "@/types/pizzatype";
 const Ordermenu = () => {
   const dispatch = useDispatch();
-
-
 
   const { itemCart } = useSelector((state: RootState) => state.pizza);
 
   const openModal = (item: PizzaType) => {
     dispatch(setSelectedPizza(item));
-    // dispatch(setSelectedSize(sizes[0].value));
-    // dispatch(setSelectedExtras([]));
-    // dispatch(setTotalPrice(item.price));
     dispatch(setIsModalOpen(true));
   };
 
   const opendecModal = (item: PizzaType) => {
     dispatch(setSelectedPizza(item));
-    // dispatch(setSelectedSize(sizes[0].value));
-    // dispatch(setSelectedExtras([]));
-    // dispatch(setTotalPrice(item.price));
     dispatch(isDecModalOpen(true));
-    // dispatch(dec(
-    //                   pizza: selectedPizza, 
-    //                   size: selectedSize, 
-    //                   extras: selectedExtras, 
-    //                   price: totalPrice, 
-    //                  image: selectedPizza.image
-    //                 ));
   };
-
 
   return (
     <>
@@ -120,10 +104,7 @@ const Ordermenu = () => {
                         <button
                           type="button"
                           title="addBtn"
-                          onClick={() =>
-                            opendecModal(item)
-                            
-                          }
+                          onClick={() => opendecModal(item)}
                           className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
                         >
                           <GoDash />
@@ -134,7 +115,6 @@ const Ordermenu = () => {
                         <button
                           title="addBtn"
                           onClick={() => openModal(item)}
-                          
                           className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
                         >
                           <GoPlus />
@@ -162,7 +142,6 @@ const Ordermenu = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };

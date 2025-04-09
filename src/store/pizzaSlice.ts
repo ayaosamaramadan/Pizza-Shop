@@ -9,10 +9,8 @@ type itemCartTypes = {
   size: number;
   extras: SizeExtras[];
   image: string;
-
-  description?: string; // Optional if not always present
+  description?: string;
 };
-
 
 interface PizzaState {
   isModalOpen: boolean;
@@ -23,7 +21,6 @@ interface PizzaState {
   itemCart: itemCartTypes[];
   isdecOpen: boolean;
   daupleitemCart: itemCartTypes[];
-  
 }
 
 const initialState: PizzaState = {
@@ -53,13 +50,9 @@ const pizzaSlice = createSlice({
     ) {
       const { pizza, size, extras, price } = action.payload;
 
-     const existingPizza = state.itemCart.find(
-        (item) =>
-          item.id === pizza.id 
-      );
+      const existingPizza = state.itemCart.find((item) => item.id === pizza.id);
 
       if (existingPizza) {
-       
         existingPizza.quantity += 1;
         console.log("Pizza already in cart, increasing quantity.");
         existingPizza.price += price;
@@ -72,11 +65,7 @@ const pizzaSlice = createSlice({
           price: price,
           quantity: 1,
         });
-
-
-
       } else {
-      
         state.itemCart.push({
           id: pizza.id,
           title: pizza.title,
@@ -100,18 +89,6 @@ const pizzaSlice = createSlice({
         console.log("Pizza added to cart.");
       }
     },
-  //  dec(
-  //     state,
-  //     action: PayloadAction<{
-  //       pizza: PizzaType;
-  //       size: number;
-  //       extras: SizeExtras[];
-  //       price: number;
-  //       image: string;
-  //     }>
-  //   ) {
-     
-  //   },
     setIsModalOpen(state, action: PayloadAction<boolean>) {
       state.isModalOpen = action.payload;
     },
@@ -130,8 +107,38 @@ const pizzaSlice = createSlice({
     isDecModalOpen(state, action: PayloadAction<boolean>) {
       state.isdecOpen = action.payload;
     },
-  },
+      remove(
+        state,
+        action: PayloadAction<{ index: number; id: number ,selectedPizza: PizzaType | null }>
+      ){
+       
+        const { index, id } = action.payload;
+        const itemInCart = state.itemCart.find((item) => item.id === id);
+        const selectedItem = state.daupleitemCart.find((item) => item.id === id);
+        const itemIndex = state.daupleitemCart.findIndex((item) => item.id === id);
+        // if (itemInCart) {
+        //   itemInCart.quantity -= 1;
+        //   state.daupleitemCart.splice(index, 1);
+        //   itemInCart.price -= selectedItem?.price || 0;
+        //   if (itemInCart.quantity === 0) {
+        //     state.itemCart = state.itemCart.filter((item) => item.id !== id);
+        //   }
+        // }
+        state.daupleitemCart.splice(selectedItem ? itemIndex : index, 1);
+        if(itemInCart) {
+          itemInCart.quantity -= 1;
+          itemInCart.price -= selectedItem?.price || 0;
+          if (itemInCart.quantity === 0) {
+            state.itemCart = state.itemCart.filter((item) => item.id !== id);
+          }
+        }
+       
+        
+    },
+  
+  }
 });
+
 
 export const {
   setIsModalOpen,
@@ -141,8 +148,7 @@ export const {
   setSelectedSize,
   addtocart,
   isDecModalOpen,
-  
-  // dec
+  remove
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;

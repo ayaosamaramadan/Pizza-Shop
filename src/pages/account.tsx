@@ -7,7 +7,6 @@ const Account = () => {
     <div className="flex">
       <Navbar />
       <div className="ml-20">
-        {" "}
         <h1>Account</h1>
       </div>
     </div>
