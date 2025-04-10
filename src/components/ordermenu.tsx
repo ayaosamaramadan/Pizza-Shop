@@ -1,5 +1,5 @@
 "use client";
-import { RootState } from "@/store";
+import { initializeCart } from "@/store/pizzaSlice";import { RootState } from "@/store";
 import Image from "next/image";
 import { GoDash, GoPlus } from "react-icons/go";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +11,8 @@ import {
 import { PizzaType } from "@/types/pizzatype";
 import { useEffect } from "react";
 
-import { initializeCart } from "@/store/pizzaSlice";
+
+import Modiforder from "@/components/buttonactions/modiforder";
 
 
 const Ordermenu = () => {
@@ -21,7 +22,7 @@ const Ordermenu = () => {
     dispatch(initializeCart());
   }, [dispatch]);
 
-  const { itemCart, categories } = useSelector(
+  const { itemCart, categories ,selectedPizza , isModalOpen } = useSelector(
     (state: RootState) => state.pizza
   );
 
@@ -43,6 +44,8 @@ const Ordermenu = () => {
   const opendecModal = (item: PizzaType) => {
     dispatch(setSelectedPizza(item));
     dispatch(isDecModalOpen(true));
+    dispatch(setIsModalOpen(false));
+    dispatch(setIsModalOpen(false));
   };
 
   return (
@@ -177,6 +180,7 @@ const Ordermenu = () => {
         </div>
       </div>
       
+      {isModalOpen && selectedPizza && <Modiforder/>}
     </>
   );
 };

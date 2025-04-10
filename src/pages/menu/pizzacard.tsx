@@ -11,9 +11,14 @@ import {
 
 import { sizes } from "@/app/data/pizza";
 import { PizzaType } from "@/types/pizzatype";
+import Modiforder from "@/components/buttonactions/modiforder";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 
 const Pizzacard = ({ pizza }: { pizza: PizzaType }) => {
   const dispatch = useDispatch();
+
+  const{selectedPizza, isModalOpen} = useSelector((state: RootState) => state.pizza);
 
   const openModal = (pizza: PizzaType) => {
     dispatch(setSelectedPizza(pizza));
@@ -28,6 +33,7 @@ const Pizzacard = ({ pizza }: { pizza: PizzaType }) => {
   }
 
   return (
+   <>
     <div className="shadow-lg rounded-lg p-4 flex flex-col bg-white hover:shadow-2xl transition-transform transform hover:scale-105 hover:bg-[#FFF5E6] border border-[#FF5722]">
       <div className="relative w-full">
         <Image
@@ -59,6 +65,9 @@ const Pizzacard = ({ pizza }: { pizza: PizzaType }) => {
         </div>
       </div>
     </div>
+    
+    {isModalOpen && selectedPizza && <Modiforder/>}
+    </>
   );
 };
 

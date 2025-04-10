@@ -1,12 +1,20 @@
+"use client";
+import Modiforder from "@/components/buttonactions/modiforder";
 import Offers from "./offers";
-import Ordermenu from "./ordermenu";
+// import Ordermenu from "../components/ordermenu";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 const Homepage = () => {
+  const { selectedPizza, isModalOpen } = useSelector(
+    (state: RootState) => state.pizza
+  );
   return (
     <>
       <div className="flex ml-5">
-       <Offers/>
-       <Ordermenu/>
+        <Offers />
+        
       </div>
+      {isModalOpen && selectedPizza && <Modiforder />}
     </>
   );
 };
