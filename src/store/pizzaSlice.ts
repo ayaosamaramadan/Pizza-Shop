@@ -134,7 +134,11 @@ const pizzaSlice = createSlice({
         itemInCart.price -= selectedItem?.price || 0;
         if (itemInCart.quantity === 0) {
           state.itemCart = state.itemCart.filter((item) => item.id !== id);
+
+
+
         }
+        
       }
 
       if (typeof window !== "undefined") {
@@ -144,6 +148,7 @@ const pizzaSlice = createSlice({
           JSON.stringify(state.daupleitemCart)
         );
       }
+
     },
 
     setIsModalOpen(state, action: PayloadAction<boolean>) {
