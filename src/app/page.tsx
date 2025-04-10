@@ -1,20 +1,23 @@
 "use client";
+import Checkout from "@/pages/checkout";
 import Homepage from "@/pages/homepage";
+import { RootState } from "@/store";
 import { initializeCart } from "@/store/pizzaSlice";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 export default function Home() {
-  // const [pizzas, setPizzas] = useState<PizzaType[]>([]);
   const dispatch = useDispatch();
+  const {openCheckout} = useSelector((state: RootState) => state.pizza);
 
   useEffect(() => {
-    // Load cart from localStorage when the app initializes
-    dispatch(initializeCart());
+   dispatch(initializeCart());
   }, [dispatch]);
 
   return (
     <>
+    {openCheckout && <Checkout />}
       <Homepage />
     
     </>

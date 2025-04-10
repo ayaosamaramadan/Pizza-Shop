@@ -1,5 +1,5 @@
 "use client";
-import { initializeCart } from "@/store/pizzaSlice";import { RootState } from "@/store";
+import { initializeCart,setOpenCheck } from "@/store/pizzaSlice";import { RootState } from "@/store";
 import Image from "next/image";
 import { GoDash, GoPlus } from "react-icons/go";
 import { useSelector, useDispatch } from "react-redux";
@@ -45,6 +45,11 @@ const Ordermenu = () => {
     dispatch(setSelectedPizza(item));
     dispatch(isDecModalOpen(true));
     dispatch(setIsModalOpen(false));
+    dispatch(setIsModalOpen(false));
+  };
+
+  const openmodel = () => {
+    dispatch(setOpenCheck(true));
     dispatch(setIsModalOpen(false));
   };
 
@@ -172,6 +177,8 @@ const Ordermenu = () => {
           <div className="flex justify-center mt-5">
             <button
               title="btn"
+              onClick={openmodel}
+              type="button"
               className="bg-[#FF9921] text-white py-2 px-4 rounded-2xl shadow-sm shadow-orange-100 hover:bg-[#e68a1d] transition duration-300"
             >
               Checkout

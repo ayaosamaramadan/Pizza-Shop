@@ -24,6 +24,7 @@ interface Category {
   id: number;
   name: string;
   products: Product[];
+
 }
 
 interface PizzaState {
@@ -36,6 +37,7 @@ interface PizzaState {
   isdecOpen: boolean;
   daupleitemCart: itemCartTypes[];
   categories: Category[];
+  openCheckout: boolean;
 }
 
 const initialState: PizzaState = {
@@ -48,6 +50,7 @@ const initialState: PizzaState = {
   isdecOpen: false,
   daupleitemCart: [],
   categories: [],
+  openCheckout: false,
 };
 
 const pizzaSlice = createSlice({
@@ -134,11 +137,7 @@ const pizzaSlice = createSlice({
         itemInCart.price -= selectedItem?.price || 0;
         if (itemInCart.quantity === 0) {
           state.itemCart = state.itemCart.filter((item) => item.id !== id);
-
-
-
         }
-        
       }
 
       if (typeof window !== "undefined") {
@@ -148,7 +147,6 @@ const pizzaSlice = createSlice({
           JSON.stringify(state.daupleitemCart)
         );
       }
-
     },
 
     setIsModalOpen(state, action: PayloadAction<boolean>) {
@@ -178,6 +176,9 @@ const pizzaSlice = createSlice({
     setCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload;
     },
+    setOpenCheck(state, action: PayloadAction<boolean>) {
+      state.openCheckout = action.payload;
+    },
   },
 });
 
@@ -192,6 +193,7 @@ export const {
   setSelectedSize,
   isDecModalOpen,
   setCategories,
+  setOpenCheck,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;
