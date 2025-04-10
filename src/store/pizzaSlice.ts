@@ -179,6 +179,9 @@ const pizzaSlice = createSlice({
     setOpenCheck(state, action: PayloadAction<boolean>) {
       state.openCheckout = action.payload;
     },
+    closeCheckout(state) {
+      state.openCheckout = false;
+    }
   },
 });
 
@@ -194,6 +197,7 @@ export const {
   isDecModalOpen,
   setCategories,
   setOpenCheck,
+  closeCheckout,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;
