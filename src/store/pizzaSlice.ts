@@ -54,18 +54,18 @@ const pizzaSlice = createSlice({
   name: "pizza",
   initialState,
   reducers: {
-    // Initialize cart from localStorage
     initializeCart(state) {
       if (typeof window !== "undefined") {
         const storedCart = localStorage.getItem("itemCart");
         state.itemCart = storedCart ? JSON.parse(storedCart) : [];
 
         const storedDaupleCart = localStorage.getItem("daupleitemCart");
-        state.daupleitemCart = storedDaupleCart ? JSON.parse(storedDaupleCart) : [];
+        state.daupleitemCart = storedDaupleCart
+          ? JSON.parse(storedDaupleCart)
+          : [];
       }
     },
 
-    // Add an item to the cart
     addtocart(
       state,
       action: PayloadAction<{
@@ -95,7 +95,6 @@ const pizzaSlice = createSlice({
         });
       }
 
-      // Add to daupleitemCart
       state.daupleitemCart.push({
         id: pizza.id,
         title: pizza.title,
@@ -106,73 +105,71 @@ const pizzaSlice = createSlice({
         quantity: 1,
       });
 
-      // Save updated carts to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("itemCart", JSON.stringify(state.itemCart));
-        localStorage.setItem("daupleitemCart", JSON.stringify(state.daupleitemCart));
+        localStorage.setItem(
+          "daupleitemCart",
+          JSON.stringify(state.daupleitemCart)
+        );
       }
     },
-
-    // Remove an item from the cart
     remove(
       state,
       action: PayloadAction<{
+        index: number;
         id: number;
+        selectedPizza: PizzaType | null;
       }>
     ) {
-      const { id } = action.payload;
-
-      // Remove from itemCart
+      const { index, id } = action.payload;
       const itemInCart = state.itemCart.find((item) => item.id === id);
+      const selectedItem = state.daupleitemCart.find((item) => item.id === id);
+      const itemIndex = state.daupleitemCart.findIndex(
+        (item) => item.id === id
+      );
+
+      state.daupleitemCart.splice(selectedItem ? itemIndex : index, 1);
       if (itemInCart) {
         itemInCart.quantity -= 1;
-        itemInCart.price -= itemInCart.price / (itemInCart.quantity + 1); // Adjust price
+        itemInCart.price -= selectedItem?.price || 0;
         if (itemInCart.quantity === 0) {
           state.itemCart = state.itemCart.filter((item) => item.id !== id);
         }
       }
 
-      // Remove from daupleitemCart
-      state.daupleitemCart = state.daupleitemCart.filter((item) => item.id !== id);
-
-      // Save updated carts to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("itemCart", JSON.stringify(state.itemCart));
-        localStorage.setItem("daupleitemCart", JSON.stringify(state.daupleitemCart));
+        localStorage.setItem(
+          "daupleitemCart",
+          JSON.stringify(state.daupleitemCart)
+        );
       }
     },
 
-    // Set modal open state
     setIsModalOpen(state, action: PayloadAction<boolean>) {
       state.isModalOpen = action.payload;
     },
 
-    // Set selected pizza
     setSelectedPizza(state, action: PayloadAction<PizzaType | null>) {
       state.selectedPizza = action.payload;
     },
 
-    // Set selected extras
     setSelectedExtras(state, action: PayloadAction<SizeExtras[]>) {
       state.selectedExtras = action.payload;
     },
 
-    // Set total price
     setTotalPrice(state, action: PayloadAction<number>) {
       state.totalPrice = action.payload;
     },
 
-    // Set selected size
     setSelectedSize(state, action: PayloadAction<number>) {
       state.selectedSize = action.payload;
     },
 
-    // Set decrement modal open state
     isDecModalOpen(state, action: PayloadAction<boolean>) {
       state.isdecOpen = action.payload;
     },
 
-    // Set categories
     setCategories(state, action: PayloadAction<Category[]>) {
       state.categories = action.payload;
     },
