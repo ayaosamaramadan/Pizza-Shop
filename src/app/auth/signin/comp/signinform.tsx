@@ -2,8 +2,14 @@
 import Link from "next/link";
 import { IoArrowBack } from "react-icons/io5";
 import { signIn } from "next-auth/react";
-import  {useRef}  from "react";
+import  {useRef, useState}  from "react";
+import { loginSchema } from "@/validations/auth";
+import { ZodError } from "zod";
+
 const Signinform = () => {
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
   const formrefref = useRef<HTMLFormElement>(null);
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,18 +25,26 @@ const Signinform = () => {
       data[key] = value.toString();
     });
 
+    setEmailError(null);
+    setPasswordError(null);
+    setGeneralError(null);
+
     // console.log(data);
 
     try{
+      loginSchema().parse(data);
+
      const res=await signIn("credentials", {
         redirect: false,
         email: data.email,
         password: data.password,
      } );
 
-      if (res?.error) {
-        console.error("Login failed:", res.error);
-      }
+     if (res?.error) {
+      setGeneralError("Invalid email or password.");
+    } else {
+      alert("Login successful!");
+    }
 
 
 
@@ -38,7 +52,20 @@ const Signinform = () => {
 
 
     catch (error) {
-      console.error("Error signing in:", error);
+      if (error instanceof ZodError) {
+        // Handle Zod validation errors
+        error.errors.forEach((err) => {
+          if (err.path[0] === "email") {
+            setEmailError(err.message);
+          }
+          if (err.path[0] === "password") {
+            setPasswordError(err.message);
+          }
+        });
+      } else {
+        console.error("Error signing in:", error);
+        setGeneralError("An unexpected error occurred. Please try again.");
+      }
     }
   };
   return (
@@ -47,8 +74,9 @@ const Signinform = () => {
         <form
         
         onSubmit={handleLogin}
-        
+
         ref={formrefref}
+        noValidate
         
          className="bg-[#201818] p-6 rounded-lg shadow-lg w-full max-w-md">
           <div className="flex items-center gap-6 mb-6">
@@ -77,6 +105,9 @@ const Signinform = () => {
               placeholder="Enter your email"
               required
             />
+              {emailError && (
+              <p className="text-red-500 text-sm mt-1">{emailError}</p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -95,6 +126,9 @@ const Signinform = () => {
               minLength={8}
               required
             />
+             {passwordError && (
+              <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -110,6 +144,10 @@ const Signinform = () => {
               Remember me
             </label>
           </div>
+
+          {generalError && (
+            <p className="text-red-500 text-sm mb-4">{generalError}</p>
+          )}
 
           <button
             type="submit"
