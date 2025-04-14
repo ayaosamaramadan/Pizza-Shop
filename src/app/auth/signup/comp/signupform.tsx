@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { GoLock, GoPerson } from "react-icons/go";
 import { IoArrowBack } from "react-icons/io5";
+import { MdAlternateEmail } from "react-icons/md";
 
 const Signupform = () => {
   return (
@@ -18,6 +20,7 @@ const Signupform = () => {
             <h1 className="text-2xl font-bold text-gray-100">Register</h1>
           </div>
 
+
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -25,14 +28,20 @@ const Signupform = () => {
             >
               Name
             </label>
+               <div className="relative">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <GoPerson />
+
+                        </span>
             <input
               type="name"
               id="name"
               name="name"
-              className="mt-1 p-2 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="mt-1 p-2 pl-10 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-orange-600 focus:ring-orange-600 sm:text-sm"
               placeholder="Enter your name"
               required
             />
+          </div>
           </div>
 
           <div className="mb-4">
@@ -42,14 +51,19 @@ const Signupform = () => {
             >
               Email
             </label>
+            <div className="relative">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <MdAlternateEmail />
+                        </span>
             <input
               type="email"
               id="email"
               name="email"
-              className="mt-1 p-2 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="mt-1 p-2 pl-10 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-orange-600 focus:ring-orange-600 sm:text-sm"
               placeholder="Enter your email"
               required
             />
+          </div>
           </div>
 
           <div className="mb-4">
@@ -59,15 +73,20 @@ const Signupform = () => {
             >
               Password
             </label>
+            <div className="relative">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <GoLock/>
+                        </span>
             <input
               type="password"
               id="password"
               name="password"
-              className="mt-1 p-2 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="mt-1 p-2 pl-10 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-orange-600 focus:ring-orange-600 sm:text-sm"
               placeholder="Enter your password"
               minLength={8}
               required
             />
+          </div>
           </div>
 
           <div className="mb-4">
@@ -96,7 +115,7 @@ const Signupform = () => {
             Already have an account?
             <Link
               href="/auth/signin"
-              className="text-orange-400 hover:underline"
+              className="ml-3 text-orange-400 hover:underline"
             >
               Sign In
             </Link>
