@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const pizzas = await prisma.product.findMany();
-    console.log("Fetched pizzas:", pizzas); 
+    // console.log("Fetched pizzas:", pizzas); 
     res.status(200).json(pizzas);
   } catch (error) {
     console.error("Error fetching pizzas:", error);

@@ -10,6 +10,7 @@ const Signinform = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [generalError, setGeneralError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   const formrefref = useRef<HTMLFormElement>(null);
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,6 +34,7 @@ const Signinform = () => {
 
     try{
       loginSchema().parse(data);
+      setIsLoading(true);
 
      const res=await signIn("credentials", {
         redirect: false,
@@ -67,6 +69,11 @@ const Signinform = () => {
         setGeneralError("An unexpected error occurred. Please try again.");
       }
     }
+    
+    finally{
+      setIsLoading(false);
+    }
+
   };
   return (
     <>
@@ -153,7 +160,7 @@ const Signinform = () => {
             type="submit"
             className="w-full cursor-pointer bg-orange-400 text-white py-2 px-4 rounded-md hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
-            Log In
+           {isLoading? "Loading..." : "Login"}
           </button>
 
           <p className="mt-4 text-center text-sm text-gray-300">
