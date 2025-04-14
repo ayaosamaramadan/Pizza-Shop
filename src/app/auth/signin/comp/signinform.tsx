@@ -1,12 +1,56 @@
 "use client";
-
-import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
+import { IoArrowBack } from "react-icons/io5";
+import { signIn } from "next-auth/react";
+import  {useRef}  from "react";
 const Signinform = () => {
+
+  const formrefref = useRef<HTMLFormElement>(null);
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if(!formrefref.current) return;
+
+    const formData = new FormData(formrefref.current);
+
+    const data: Record<string, string> = {};
+
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    // console.log(data);
+
+    try{
+     const res=await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+     } );
+
+      if (res?.error) {
+        console.error("Login failed:", res.error);
+      }
+
+
+
+    } 
+
+
+    catch (error) {
+      console.error("Error signing in:", error);
+    }
+  };
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-md">
-        <form className="bg-[#201818] p-6 rounded-lg shadow-lg w-full max-w-md">
+        <form
+        
+        onSubmit={handleLogin}
+        
+        ref={formrefref}
+        
+         className="bg-[#201818] p-6 rounded-lg shadow-lg w-full max-w-md">
           <div className="flex items-center gap-6 mb-6">
             <button
               type="button"
