@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/prisma";
+import { loginUser } from "./actions/auth";
 export const authOptions: NextAuthOptions = {
    
     session: {
@@ -30,14 +31,24 @@ export const authOptions: NextAuthOptions = {
           type: "password",
         },
       },
-      authorize: (credentials) => {
-        const user = credentials;
-        return {
-          id: crypto.randomUUID(),
-          ...user,
-        };
-      },
+      authorize: async(credentials ) => {
+        const res = await loginUser(credentials);
+       if (res.status === 200 && res.user) {
+          return res.user;
+        }
+        
+        else{
+          throw new Error(
+            JSON.stringify({
+              message: res.error,
+              status: res.status,
+            })
+          );
+        }
+        
+      }
     }),
+
   ],
 
     pages: {
