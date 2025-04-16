@@ -1,7 +1,6 @@
 "use client";
 import Modiforder from "@/components/buttonactions/modiforder";
 import Offers from "./offers";
-// import Ordermenu from "../components/ordermenu";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 const Homepage = () => {
@@ -10,12 +9,12 @@ const Homepage = () => {
   );
   return (
     <>
-      <div className="flex ml-5">
+      <div className="flex ml-6">
         <Offers />
-        
-      </div>
-      {isModalOpen && selectedPizza && <Modiforder />}
-    </>
+     
+      </div>  {isModalOpen && selectedPizza && <Modiforder />}
+     
+      </>
   );
 };
 

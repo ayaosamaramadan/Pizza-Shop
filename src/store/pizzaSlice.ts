@@ -38,6 +38,7 @@ interface PizzaState {
   daupleitemCart: itemCartTypes[];
   categories: Category[];
   openCheckout: boolean;
+  openlastCheckout: boolean;
 }
 
 const initialState: PizzaState = {
@@ -51,6 +52,7 @@ const initialState: PizzaState = {
   daupleitemCart: [],
   categories: [],
   openCheckout: false,
+  openlastCheckout: false,
 };
 
 const pizzaSlice = createSlice({
@@ -181,7 +183,11 @@ const pizzaSlice = createSlice({
     },
     closeCheckout(state) {
       state.openCheckout = false;
-    }
+    },
+    setopenLastCheckout(state) {
+      state.openlastCheckout = !state.openlastCheckout;
+      
+     },
   },
 });
 
@@ -198,6 +204,7 @@ export const {
   setCategories,
   setOpenCheck,
   closeCheckout,
+  setopenLastCheckout,
 } = pizzaSlice.actions;
 
 export default pizzaSlice.reducer;

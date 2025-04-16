@@ -22,7 +22,7 @@ const Ordermenu = () => {
     dispatch(initializeCart());
   }, [dispatch]);
 
-  const { itemCart, categories ,selectedPizza , isModalOpen } = useSelector(
+  const {openlastCheckout, itemCart, categories ,selectedPizza , isModalOpen } = useSelector(
     (state: RootState) => state.pizza
   );
 
@@ -54,8 +54,9 @@ const Ordermenu = () => {
   };
 
   return (
-    <>
-      <div className="fixed right-0 ml-10 bg-[#201818] min-h-screen w-full sm:w-[30vw] p-5">
+  <>
+   {openlastCheckout&& <>
+      <div className="2xl:block xl:block fixed right-0 ml-10 bg-[#201818] duration-300 ease-in-out z-9 h-full p-5">
         <div className="flex mx-12 items-center mt-1 bg-[#1877F2] p-3 rounded shadow-md">
           <Image
             src="https://res.cloudinary.com/dgjbaeyok/image/upload/v1743901505/foodapp/home/cnevejsf98i36wp7vfim.png"
@@ -101,58 +102,56 @@ const Ordermenu = () => {
         </div>
 
         <div>
-          <div className="flex justify-between items-center mt-1 mx-12">
-            <h1 className="text-[1.6rem] font-semibold">Order Menu</h1>
-            <button className="font-semibold leading-2 text-[#FF9921] flex items-center justify-center">
+            <div className="flex mt-4 justify-between items-center mx-4 sm:mx-8 md:mx-12">
+            <h1 className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.6rem] font-semibold">Order Menu</h1>
+            <button className="font-semibold leading-2 text-[#FF9921] flex items-center justify-center text-sm sm:text-base md:text-lg">
               See All
             </button>
-          </div>
+            </div>
 
           <div className="max-h-[250px] h-[300px] overflow-y-scroll">
             {itemCart&&
             itemCart.map((item) => (
-              <div key={item.id}>
+                <div key={item.id} className="relative">
                 <div className="bg-[#b4bccf31] flex items-center mt-2 mx-2 p-2 rounded-lg shadow-md hover:shadow-lg hover:bg-[#37383ab6] transition duration-300">
                   <Image
-                    src={item.image}
-                    alt=""
-                    width={170}
-                    height={90}
-                    className="w-auto opacity-100 h-auto rounded-lg shadow"
+                  src={item.image}
+                  alt=""
+                  width={170}
+                  height={90}
+                  className="w-auto opacity-100 h-auto rounded-lg shadow"
                   />
                   <div>
-                    <div className="w-52">
-                      <h1 className="font-bold text-[1rem] mt-1 ml-4">
-                        {item.title}
-                      </h1>
-                      <p className="ml-4 text-gray-500">8 inch</p>
-                      <p className="text-[#01C550] ml-4 leading-x-4">
-                        ${item.price}
-                      </p>
-                      <div className="flex justify-end">
-                        <button
-                          type="button"
-                          title="addBtn"
-                          onClick={() => opendecModal(item)}
-                          className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
-                        >
-                          <GoDash />
-                        </button>
-                        <p className="mx-3 text-black font-bold">
-                          {item.quantity}
-                        </p>
-                        <button
-                          title="addBtn"
-                          onClick={() => openModal(item)}
-                          className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
-                        >
-                          <GoPlus />
-                        </button>
-                      </div>
-                    </div>
+                  <div className="w-52">
+                    <h1 className="font-bold text-[1rem] mt-1 ml-4">
+                    {item.title}
+                    </h1>
+                    <p className="ml-4 text-gray-500">8 inch</p>
+                    <p className="text-[#01C550] ml-4 leading-x-4">
+                    ${item.price}
+                    </p>
+                  </div>
                   </div>
                 </div>
-              </div>
+                <div className="absolute bottom-2 right-2 mr-4 flex items-center">
+                  <button
+                  type="button"
+                  title="addBtn"
+                  onClick={() => opendecModal(item)}
+                  className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
+                  >
+                  <GoDash />
+                  </button>
+                  <p className="mx-3 text-black font-bold">{item.quantity}</p>
+                  <button
+                  title="addBtn"
+                  onClick={() => openModal(item)}
+                  className="text-[1.5rem] font-extrabold text-black bg-white rounded-md hover:bg-gray-200 transition duration-300 ease-in-out cursor-pointer"
+                  >
+                  <GoPlus />
+                  </button>
+                </div>
+                </div>
             ))}
             {itemCart.length === 0 && (
                 <div className="flex mt-20 flex-col justify-center items-center">
@@ -188,6 +187,7 @@ const Ordermenu = () => {
       </div>
       
       {isModalOpen && selectedPizza && <Modiforder/>}
+    </>}
     </>
   );
 };
