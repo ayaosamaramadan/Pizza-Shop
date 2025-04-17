@@ -33,7 +33,7 @@ const Pizza = () => {
     };
 
     fetchPizza();
-  }, []);
+  }, [ dispatch ]);
 
   if (loading) {
     return <div>Loading...</div>;
