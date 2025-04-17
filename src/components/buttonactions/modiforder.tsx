@@ -8,9 +8,11 @@ import {
   setTotalPrice,
   setSelectedSize,
   addtocart,
+  setopenLastCheckout,
 } from "@/store/pizzaSlice";
 import { RootState } from "@/store";
 import { SizeExtras } from "@/types/pizzatype";
+import { toast } from "react-toastify";
 
 const Modiforder = () => {
   const dispatch = useDispatch();
@@ -121,9 +123,16 @@ const Modiforder = () => {
             </div>
             <button
               className="mt-4 px-4 py-2 bg-[#01C550] text-white rounded hover:bg-[#03e06b] transition shadow-md hover:shadow-lg"
+         
               onClick={() => {
                 closeModal();
+                toast.success("Pizza added to cart!", {
+                  position: "bottom-left",
+                  autoClose: 2000,
+                  className: "toast-success",
+                });
                 dispatch(setSelectedPizza(null));
+                dispatch(setopenLastCheckout())
                 dispatch(
                   addtocart({
                     pizza: selectedPizza,
