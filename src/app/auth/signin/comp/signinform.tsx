@@ -3,8 +3,8 @@ import Link from "next/link";
 import { IoArrowBack } from "react-icons/io5";
 import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
-import { loginSchema } from "@/validations/auth";
-import { ZodError } from "zod";
+import { ZodError } from "zod";import { loginSchema } from "@/validations/auth";
+
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 
@@ -78,13 +78,15 @@ const Signinform = () => {
           className="bg-[#201818] p-6 rounded-lg shadow-lg w-full max-w-md"
         >
           <div className="flex items-center gap-6 mb-6">
-            <button
+           <Link href={"/"}>
+           <button
               type="button"
               className="cursor-pointer text-gray-300 hover:text-white focus:outline-none"
               aria-label="Go back"
             >
               <IoArrowBack size={24} />
             </button>
+            </Link>
             <h1 className="text-2xl font-bold text-gray-100">Welcome Back</h1>
           </div>
 
@@ -194,7 +196,7 @@ const Signinform = () => {
           <p className="mt-4 text-center text-sm text-gray-300">
             Do not have an account?
             <Link
-              href="/auth/signup"
+              href={"/auth/signup"}
               className="ml-3 text-orange-400 hover:underline"
             >
               Sign Up

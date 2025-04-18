@@ -1,5 +1,6 @@
 import { RootState } from "@/store";
 import Image from "next/image";
+import Link from "next/link";
 import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
@@ -43,7 +44,18 @@ const Offers = () => {
            />
          </div>
          <div className="sm:ml-4 ml-2 justify-end flex flex-col items-center">
-           <ul className="flex gap-2">
+         <ul className="flex gap-4 items-center justify-center">
+           <li >
+                      <Link href={"./auth/signup"}>
+                      <button type="button"  className="w-24 cursor-pointer px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800 transition duration-300">
+                      Sign Up
+                      </button></Link>
+                    </li>
+                  <li >
+                     <Link href={"./auth/signin"}> <button className="cursor-pointer mr-5 px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-600 transition duration-300">
+                      Login
+                      </button></Link>
+                    </li>
           <li className="bg-[#383D38] p-2 rounded-full">
             <FaFacebook />
           </li>

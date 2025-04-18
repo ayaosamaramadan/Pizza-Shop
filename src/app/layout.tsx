@@ -7,6 +7,8 @@ import "./globals.css";
 import Navbar from "../components/Navbar";
 import Ordermenu from "@/components/ordermenu";
 import Decrpizza from "@/components/buttonactions/decrpizza";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +35,7 @@ export default function RootLayout({
       <body
         className={`flex ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+          <ToastContainer />
         <ReduxProvider>
           <ClientProvider>
             <Navbar />
